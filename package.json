@@ -1,6 +1,6 @@
 {
   "name": "@particle-academy/react-echarts",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "React component library wrapping Apache ECharts with typed components for every chart type",
   "type": "module",
   "main": "./dist/index.cjs",
@@ -20,6 +20,7 @@
   },
   "files": [
     "dist",
+    "docs",
     "README.md"
   ],
   "scripts": {
