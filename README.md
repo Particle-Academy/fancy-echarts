@@ -44,6 +44,19 @@ function App() {
 }
 ```
 
+## Documentation
+
+Full component documentation is available in the [docs/](docs/) folder:
+
+| Topic | Description |
+|-------|-------------|
+| [EChart](docs/EChart.md) | Base chart component + all 20 series sub-components |
+| [EChart3D](docs/EChart3D.md) | 3D charts (Bar, Scatter, Line, Surface, Globe) |
+| [EChartGraphic](docs/EChartGraphic.md) | Custom drawing with the graphic API |
+| [useECharts](docs/useECharts.md) | Core hook for custom integrations |
+| [Registration](docs/registration.md) | Tree shaking and selective chart registration |
+| [Themes](docs/themes.md) | Built-in themes and custom theme creation |
+
 ## Components
 
 ### `<EChart>` — Base Component
