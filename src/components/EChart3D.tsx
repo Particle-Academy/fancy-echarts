@@ -19,10 +19,8 @@ function loadEChartsGL(): Promise<void> {
       .then(() => {
         glLoaded = true;
       })
-      .catch(() => {
-        console.warn(
-          "echarts-gl is required for 3D charts. Install it with: npm install echarts-gl"
-        );
+      .catch((err: unknown) => {
+        console.warn("Failed to load echarts-gl for 3D charts:", err);
       });
   }
   return glPromise;
@@ -52,8 +50,8 @@ function WithGL({ children, style, className }: { children: React.ReactNode; sty
 }
 
 /**
- * EChart3D — 3D chart component that loads echarts-gl.
- * Requires `echarts-gl` to be installed as a peer dependency.
+ * EChart3D — 3D chart component that lazy-loads the bundled echarts-gl
+ * engine on first mount (split into its own chunk to keep the main bundle small).
  */
 const EChart3DInner = forwardRef<HTMLDivElement, EChartComponentProps>(
   (

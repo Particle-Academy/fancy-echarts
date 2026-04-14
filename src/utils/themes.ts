@@ -1,4 +1,4 @@
-import * as echarts from "echarts";
+import { registerTheme as echartsRegisterTheme } from "echarts/core";
 
 /** Dark theme preset */
 export const darkTheme = {
@@ -75,7 +75,7 @@ export const pastelTheme = {
 
 /** Register a named theme with ECharts */
 export function registerTheme(name: string, theme: object): void {
-  echarts.registerTheme(name, theme);
+  echartsRegisterTheme(name, theme);
 }
 
 /** Register all built-in theme presets */

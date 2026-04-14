@@ -6,6 +6,6 @@ export default defineConfig({
   dts: true,
   sourcemap: true,
   clean: true,
-  external: ["react", "react-dom", "echarts", "echarts-gl"],
+  external: ["react", "react-dom"],
   treeshake: true,
 });

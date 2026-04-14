@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState, useSyncExternalStore, type RefObject } from "react";
-import * as echarts from "echarts";
-import type { ECharts, EChartsOption } from "echarts";
+import { init, getInstanceByDom, type EChartsType } from "echarts/core";
+import type { EChartsOption } from "echarts";
+
+type ECharts = EChartsType;
 import { useResizeObserver } from "./use-resize-observer";
 
 export interface UseEChartsOptions {
@@ -60,12 +62,12 @@ export function useECharts(options: UseEChartsOptions): UseEChartsReturn {
     if (!chartRef.current) return;
 
     // Dispose any existing instance (handles StrictMode double-mount)
-    const existing = echarts.getInstanceByDom(chartRef.current);
+    const existing = getInstanceByDom(chartRef.current);
     if (existing) {
       existing.dispose();
     }
 
-    const chart = echarts.init(chartRef.current, resolvedTheme, { renderer });
+    const chart = init(chartRef.current, resolvedTheme, { renderer });
     instanceRef.current = chart;
     setInstance(chart);
 
