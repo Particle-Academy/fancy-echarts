@@ -5,8 +5,8 @@ Low-level hook that initializes an ECharts instance on a div ref, manages option
 ## Import
 
 ```tsx
-import { useECharts } from "react-echarts";
-import type { UseEChartsOptions, UseEChartsReturn } from "react-echarts";
+import { useECharts } from "@particle-academy/react-echarts";
+import type { UseEChartsOptions, UseEChartsReturn } from "@particle-academy/react-echarts";
 ```
 
 ## Signature
@@ -113,7 +113,7 @@ const { chartRef } = useECharts({
 A utility hook used internally. Calls a callback whenever the referenced element's size changes.
 
 ```ts
-import { useResizeObserver } from "react-echarts";
+import { useResizeObserver } from "@particle-academy/react-echarts";
 
 function useResizeObserver(
   ref: RefObject<HTMLElement | null>,

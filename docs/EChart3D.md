@@ -5,14 +5,10 @@
 ## Import
 
 ```tsx
-import { EChart3D } from "react-echarts";
+import { EChart3D } from "@particle-academy/react-echarts";
 ```
 
-**Peer dependency:** Requires `echarts-gl` to be installed.
-
-```bash
-npm install echarts-gl
-```
+`echarts-gl` is bundled — no extra peer dependency install is required. The GL engine is dynamically loaded on first render of an `EChart3D`.
 
 ## Base Component
 

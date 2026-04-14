@@ -20,7 +20,7 @@ import {
   CalendarComponent, GraphicComponent, PolarComponent, DatasetComponent,
   // Renderers
   CanvasRenderer, SVGRenderer,
-} from "react-echarts";
+} from "@particle-academy/react-echarts";
 ```
 
 ## Quick Start: registerAll
@@ -29,7 +29,7 @@ Registers all chart types, all components, and both renderers. Convenient but no
 
 ```tsx
 // Call once at app entry (e.g., main.tsx)
-import { registerAll } from "react-echarts";
+import { registerAll } from "@particle-academy/react-echarts";
 registerAll();
 ```
 
@@ -47,7 +47,7 @@ import {
   LineChart,
   BarChart,
   PieChart,
-} from "react-echarts";
+} from "@particle-academy/react-echarts";
 
 registerCharts(LineChart, BarChart, PieChart);
 ```
@@ -63,7 +63,7 @@ import {
   TooltipComponent,
   TitleComponent,
   LegendComponent,
-} from "react-echarts";
+} from "@particle-academy/react-echarts";
 
 registerComponents(GridComponent, TooltipComponent, TitleComponent, LegendComponent);
 ```
@@ -74,9 +74,9 @@ For full control, import and register directly via `echarts/core`:
 
 ```tsx
 import { use } from "echarts/core";
-import { LineChart } from "react-echarts";
-import { GridComponent, TooltipComponent } from "react-echarts";
-import { CanvasRenderer } from "react-echarts";
+import { LineChart } from "@particle-academy/react-echarts";
+import { GridComponent, TooltipComponent } from "@particle-academy/react-echarts";
+import { CanvasRenderer } from "@particle-academy/react-echarts";
 
 use([LineChart, GridComponent, TooltipComponent, CanvasRenderer]);
 ```
@@ -136,9 +136,9 @@ For production apps, register only what you use:
 
 ```tsx
 // chart-setup.ts
-import { registerCharts, registerComponents, CanvasRenderer } from "react-echarts";
-import { LineChart, BarChart, PieChart } from "react-echarts";
-import { GridComponent, TooltipComponent, TitleComponent, LegendComponent } from "react-echarts";
+import { registerCharts, registerComponents, CanvasRenderer } from "@particle-academy/react-echarts";
+import { LineChart, BarChart, PieChart } from "@particle-academy/react-echarts";
+import { GridComponent, TooltipComponent, TitleComponent, LegendComponent } from "@particle-academy/react-echarts";
 import { use } from "echarts/core";
 
 registerCharts(LineChart, BarChart, PieChart);

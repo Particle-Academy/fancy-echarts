@@ -5,8 +5,8 @@ Component for custom drawing via the ECharts graphic layer. Supports shapes, tex
 ## Import
 
 ```tsx
-import { EChartGraphic } from "react-echarts";
-import type { GraphicElement, EChartGraphicProps } from "react-echarts";
+import { EChartGraphic } from "@particle-academy/react-echarts";
+import type { GraphicElement, EChartGraphicProps } from "@particle-academy/react-echarts";
 ```
 
 ## Props
