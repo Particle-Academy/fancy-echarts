@@ -44,6 +44,31 @@ function App() {
 }
 ```
 
+## Security: untrusted formatter strings
+
+ECharts permits HTML strings in many `option` text fields — `tooltip.formatter`, `title.subtext`, `legend.formatter`, axis label `formatter`, etc. The wrapper forwards your `option` to ECharts as-is. If a formatter string interpolates user-generated data, sanitize it first or use a function formatter and assemble safe DOM:
+
+```tsx
+// ❌ Unsafe — user-controlled name renders as HTML
+option={{
+  tooltip: { formatter: `<b>${userName}</b>: ${value}` },
+}}
+
+// ✅ Function formatter, escape user input
+option={{
+  tooltip: {
+    formatter: (params) => {
+      const safe = params.name.replace(/[&<>"']/g, (c) => ({
+        "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;",
+      }[c]!));
+      return `<b>${safe}</b>: ${params.value}`;
+    },
+  },
+}}
+```
+
+This is consumer responsibility — the wrapper does not introspect `option` to identify HTML-bearing fields.
+
 ## Documentation
 
 Full component documentation is available in the [docs/](docs/) folder:
