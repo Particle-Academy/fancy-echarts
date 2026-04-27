@@ -41,6 +41,7 @@ import {
   MarkAreaComponent,
   TimelineComponent,
   BrushComponent,
+  SingleAxisComponent,
 } from "echarts/components";
 import { CanvasRenderer, SVGRenderer } from "echarts/renderers";
 
@@ -87,6 +88,7 @@ const allComponents = [
   MarkAreaComponent,
   TimelineComponent,
   BrushComponent,
+  SingleAxisComponent,
 ] as const;
 
 const allRenderers = [CanvasRenderer, SVGRenderer] as const;
@@ -148,6 +150,7 @@ export {
   GraphicComponent,
   PolarComponent,
   DatasetComponent,
+  SingleAxisComponent,
   CanvasRenderer,
   SVGRenderer,
 };
