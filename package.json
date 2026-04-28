@@ -4,10 +4,10 @@
   "description": "React component library wrapping Apache ECharts with typed components for every chart type",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Particle-Academy/react-echarts.git"
+    "url": "git+https://github.com/Particle-Academy/fancy-echarts.git"
   },
-  "homepage": "https://github.com/Particle-Academy/react-echarts#readme",
-  "bugs": "https://github.com/Particle-Academy/react-echarts/issues",
+  "homepage": "https://github.com/Particle-Academy/fancy-echarts#readme",
+  "bugs": "https://github.com/Particle-Academy/fancy-echarts/issues",
   "type": "module",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
