@@ -1,4 +1,4 @@
-# @particle-academy/react-echarts
+# @particle-academy/fancy-echarts
 
 React component library wrapping [Apache ECharts](https://echarts.apache.org/) with typed components for every chart type — 2D, 3D, and graphic layers.
 
@@ -6,13 +6,13 @@ React component library wrapping [Apache ECharts](https://echarts.apache.org/) w
 
 ```bash
 # npm
-npm install @particle-academy/react-echarts echarts
+npm install @particle-academy/fancy-echarts echarts
 
 # pnpm
-pnpm add @particle-academy/react-echarts echarts
+pnpm add @particle-academy/fancy-echarts echarts
 
 # yarn
-yarn add @particle-academy/react-echarts echarts
+yarn add @particle-academy/fancy-echarts echarts
 ```
 
 For 3D charts (globe, surface, scatter3D, bar3D):
@@ -26,7 +26,7 @@ npm install echarts-gl
 ## Quick Start
 
 ```tsx
-import { EChart, registerAll } from "@particle-academy/react-echarts";
+import { EChart, registerAll } from "@particle-academy/fancy-echarts";
 
 // Register all chart types (convenience for quick start)
 registerAll();
@@ -117,7 +117,7 @@ Accepts any ECharts option object. Full power of ECharts with React lifecycle ma
 Separate component that automatically loads `echarts-gl` before rendering. Shows a loading placeholder until the 3D engine is ready.
 
 ```tsx
-import { EChart3D } from "@particle-academy/react-echarts";
+import { EChart3D } from "@particle-academy/fancy-echarts";
 
 <EChart3D
   option={{
@@ -137,7 +137,7 @@ import { EChart3D } from "@particle-academy/react-echarts";
 For custom drawing with the ECharts graphic API.
 
 ```tsx
-import { EChartGraphic } from "@particle-academy/react-echarts";
+import { EChartGraphic } from "@particle-academy/fancy-echarts";
 
 <EChartGraphic
   elements={[
@@ -154,7 +154,7 @@ import { EChartGraphic } from "@particle-academy/react-echarts";
 Core hook for custom integrations:
 
 ```tsx
-import { useECharts } from "@particle-academy/react-echarts";
+import { useECharts } from "@particle-academy/fancy-echarts";
 
 function CustomChart() {
   const { chartRef, instance } = useECharts({
@@ -183,7 +183,7 @@ To override, pass a specific `theme` prop:
 For production bundle optimization, use `registerCharts` to register only the chart types you need instead of `registerAll`:
 
 ```tsx
-import { registerCharts, BarChart, LineChart, GridComponent, TooltipComponent, CanvasRenderer } from "@particle-academy/react-echarts";
+import { registerCharts, BarChart, LineChart, GridComponent, TooltipComponent, CanvasRenderer } from "@particle-academy/fancy-echarts";
 
 registerCharts([BarChart, LineChart, GridComponent, TooltipComponent, CanvasRenderer]);
 ```
@@ -193,7 +193,7 @@ registerCharts([BarChart, LineChart, GridComponent, TooltipComponent, CanvasRend
 Built-in theme presets:
 
 ```tsx
-import { registerBuiltinThemes } from "@particle-academy/react-echarts";
+import { registerBuiltinThemes } from "@particle-academy/fancy-echarts";
 
 registerBuiltinThemes(); // Registers "dark-preset", "vintage", "pastel"
 

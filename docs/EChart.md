@@ -5,7 +5,7 @@ Base chart component and compound series sub-components for rendering any EChart
 ## Import
 
 ```tsx
-import { EChart } from "@particle-academy/react-echarts";
+import { EChart } from "@particle-academy/fancy-echarts";
 ```
 
 ## Base Component

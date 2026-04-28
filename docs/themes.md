@@ -11,7 +11,7 @@ import {
   pastelTheme,
   registerTheme,
   registerBuiltinThemes,
-} from "@particle-academy/react-echarts";
+} from "@particle-academy/fancy-echarts";
 ```
 
 ## Quick Start
@@ -19,7 +19,7 @@ import {
 Register all built-in themes at app entry:
 
 ```tsx
-import { registerBuiltinThemes } from "@particle-academy/react-echarts";
+import { registerBuiltinThemes } from "@particle-academy/fancy-echarts";
 registerBuiltinThemes();
 ```
 
@@ -127,7 +127,7 @@ To opt out, pass any explicit theme (including `undefined` as a string or object
 ## Custom Theme Example
 
 ```tsx
-import { registerTheme } from "@particle-academy/react-echarts";
+import { registerTheme } from "@particle-academy/fancy-echarts";
 
 const neonTheme = {
   backgroundColor: "#0a0a0a",

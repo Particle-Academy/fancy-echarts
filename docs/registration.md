@@ -20,7 +20,7 @@ import {
   CalendarComponent, GraphicComponent, PolarComponent, DatasetComponent,
   // Renderers
   CanvasRenderer, SVGRenderer,
-} from "@particle-academy/react-echarts";
+} from "@particle-academy/fancy-echarts";
 ```
 
 ## Quick Start: registerAll
@@ -29,7 +29,7 @@ Registers all chart types, all components, and both renderers. Convenient but no
 
 ```tsx
 // Call once at app entry (e.g., main.tsx)
-import { registerAll } from "@particle-academy/react-echarts";
+import { registerAll } from "@particle-academy/fancy-echarts";
 registerAll();
 ```
 
@@ -47,7 +47,7 @@ import {
   LineChart,
   BarChart,
   PieChart,
-} from "@particle-academy/react-echarts";
+} from "@particle-academy/fancy-echarts";
 
 registerCharts(LineChart, BarChart, PieChart);
 ```
@@ -63,7 +63,7 @@ import {
   TooltipComponent,
   TitleComponent,
   LegendComponent,
-} from "@particle-academy/react-echarts";
+} from "@particle-academy/fancy-echarts";
 
 registerComponents(GridComponent, TooltipComponent, TitleComponent, LegendComponent);
 ```
@@ -74,9 +74,9 @@ For full control, import and register directly via `echarts/core`:
 
 ```tsx
 import { use } from "echarts/core";
-import { LineChart } from "@particle-academy/react-echarts";
-import { GridComponent, TooltipComponent } from "@particle-academy/react-echarts";
-import { CanvasRenderer } from "@particle-academy/react-echarts";
+import { LineChart } from "@particle-academy/fancy-echarts";
+import { GridComponent, TooltipComponent } from "@particle-academy/fancy-echarts";
+import { CanvasRenderer } from "@particle-academy/fancy-echarts";
 
 use([LineChart, GridComponent, TooltipComponent, CanvasRenderer]);
 ```
@@ -136,9 +136,9 @@ For production apps, register only what you use:
 
 ```tsx
 // chart-setup.ts
-import { registerCharts, registerComponents, CanvasRenderer } from "@particle-academy/react-echarts";
-import { LineChart, BarChart, PieChart } from "@particle-academy/react-echarts";
-import { GridComponent, TooltipComponent, TitleComponent, LegendComponent } from "@particle-academy/react-echarts";
+import { registerCharts, registerComponents, CanvasRenderer } from "@particle-academy/fancy-echarts";
+import { LineChart, BarChart, PieChart } from "@particle-academy/fancy-echarts";
+import { GridComponent, TooltipComponent, TitleComponent, LegendComponent } from "@particle-academy/fancy-echarts";
 import { use } from "echarts/core";
 
 registerCharts(LineChart, BarChart, PieChart);

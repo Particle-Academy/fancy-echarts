@@ -5,7 +5,7 @@
 ## Import
 
 ```tsx
-import { EChart3D } from "@particle-academy/react-echarts";
+import { EChart3D } from "@particle-academy/fancy-echarts";
 ```
 
 `echarts-gl` is bundled — no extra peer dependency install is required. The GL engine is dynamically loaded on first render of an `EChart3D`.
