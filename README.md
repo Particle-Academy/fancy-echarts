@@ -6,18 +6,18 @@ React component library wrapping [Apache ECharts](https://echarts.apache.org/) w
 
 ```bash
 # npm
-npm install @particle-academy/fancy-echarts echarts
+npm install @particle-academy/fancy-echarts
 
 # pnpm
-pnpm add @particle-academy/fancy-echarts echarts
+pnpm add @particle-academy/fancy-echarts
 
 # yarn
-yarn add @particle-academy/fancy-echarts echarts
+yarn add @particle-academy/fancy-echarts
 ```
 
-`echarts` is a peer dependency — install it alongside fancy-echarts so you control the version and avoid bundling two copies if other parts of your app already use echarts.
+`echarts` is a peer dependency. **npm 7+** and **yarn 3+** install peer deps automatically — nothing extra needed. **pnpm** needs `auto-install-peers=true` in `.npmrc`, or run `pnpm add echarts` once.
 
-For 3D charts (globe, surface, scatter3D, bar3D), also install `echarts-gl`:
+3D charts (globe, surface, scatter3D, bar3D) need the optional `echarts-gl` peer dep:
 
 ```bash
 npm install echarts-gl
@@ -25,7 +25,7 @@ npm install echarts-gl
 
 **Peer dependencies:** `react >= 18`, `react-dom >= 18`, `echarts >= 5.5`, `echarts-gl >= 2.0` (optional, only needed for 3D)
 
-> **Breaking change in 2.0** — `echarts` and `echarts-gl` moved from regular dependencies to peer dependencies. Upgrading from 1.x? Run `npm install echarts` (and `echarts-gl` if you use 3D charts) once.
+> **Breaking change in 2.0** — `echarts` and `echarts-gl` moved from regular dependencies to peer dependencies. If you're on npm 7+ or yarn 3+ the upgrade is transparent. On older tooling or pnpm without auto-install, run `npm install echarts` (and `echarts-gl` if you use 3D charts) once.
 
 ## Quick Start
 
