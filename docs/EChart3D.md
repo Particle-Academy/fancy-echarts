@@ -8,7 +8,13 @@
 import { EChart3D } from "@particle-academy/fancy-echarts";
 ```
 
-`echarts-gl` is bundled — no extra peer dependency install is required. The GL engine is dynamically loaded on first render of an `EChart3D`.
+`echarts-gl` is an **optional peer dependency** as of fancy-echarts 2.0 — install it alongside fancy-echarts when you use 3D charts:
+
+```bash
+npm install echarts-gl
+```
+
+The GL engine is dynamically loaded on first render of an `EChart3D`, so consumers that never use 3D charts pay nothing.
 
 ## Base Component
 
