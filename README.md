@@ -15,13 +15,17 @@ pnpm add @particle-academy/fancy-echarts echarts
 yarn add @particle-academy/fancy-echarts echarts
 ```
 
-For 3D charts (globe, surface, scatter3D, bar3D):
+`echarts` is a peer dependency — install it alongside fancy-echarts so you control the version and avoid bundling two copies if other parts of your app already use echarts.
+
+For 3D charts (globe, surface, scatter3D, bar3D), also install `echarts-gl`:
 
 ```bash
 npm install echarts-gl
 ```
 
-**Peer dependencies:** `react >= 18`, `react-dom >= 18`, `echarts >= 5.5`
+**Peer dependencies:** `react >= 18`, `react-dom >= 18`, `echarts >= 5.5`, `echarts-gl >= 2.0` (optional, only needed for 3D)
+
+> **Breaking change in 2.0** — `echarts` and `echarts-gl` moved from regular dependencies to peer dependencies. Upgrading from 1.x? Run `npm install echarts` (and `echarts-gl` if you use 3D charts) once.
 
 ## Quick Start
 
