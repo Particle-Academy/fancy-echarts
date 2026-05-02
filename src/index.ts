@@ -70,3 +70,39 @@ export {
   registerTheme,
   registerBuiltinThemes,
 } from "./utils/themes";
+
+// Diagrams
+export {
+  Diagram,
+  DataDiagram,
+  Flowchart,
+  Mindmap,
+  OrgChart,
+  useDiagram,
+} from "./components/Diagram";
+export type {
+  DiagramProps,
+  DiagramEntityProps,
+  DiagramFieldProps,
+  DiagramRelationProps,
+  DiagramToolbarProps,
+  DiagramContextValue,
+  DiagramType,
+  DiagramSchema,
+  DiagramEntityData,
+  DiagramFieldData,
+  DiagramRelationData,
+  RelationType,
+  MarkerType,
+  LineStyle,
+  RoutingMode,
+  ExportFormat,
+  ViewportState,
+  FlowchartNode,
+  FlowchartEdge,
+  FlowchartProps,
+  MindmapNode,
+  MindmapProps,
+  OrgChartNode,
+  OrgChartProps,
+} from "./components/Diagram";

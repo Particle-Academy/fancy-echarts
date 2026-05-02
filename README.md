@@ -244,6 +244,23 @@ const [theme, setTheme] = useState<"light" | "dark-preset">("light");
 - **`params.event` vs `params.event.event`.** ECharts wraps the native event. Call `params.event.event.preventDefault()` to stop the browser context menu, not `params.event.preventDefault()`.
 - **Don't render React inside `tooltip.formatter`.** Returning an HTML string is fine; expecting React state or handlers to attach to that HTML is not. For interactive tooltips, use `Popover` driven by `onEvents.mouseover` / `mouseout` instead.
 
+## Diagrams
+
+Beyond charts, fancy-echarts ships four schema-driven diagram components for data-modeling, process flows, mindmapping, and hierarchies. They share one routing/marker engine — same import surface, same theming.
+
+```tsx
+import { DataDiagram, Flowchart, Mindmap, OrgChart } from "@particle-academy/fancy-echarts";
+```
+
+| Component | Use case | Default routing |
+|-----------|----------|-----------------|
+| `<DataDiagram>` | ERD / UML class diagrams with fields, primary/foreign keys, exports | manhattan |
+| `<Flowchart>` | Boxes + typed arrows, no fields | manhattan |
+| `<Mindmap>` | Radial single-root tree with bezier connectors | bezier |
+| `<OrgChart>` | Top-down hierarchy, tidy-tree layout, inheritance markers | manhattan |
+
+See [docs/Diagram.md](docs/Diagram.md) for schemas, props, and layout details.
+
 ## Documentation
 
 Full component documentation is available in the [docs/](docs/) folder:
@@ -253,6 +270,7 @@ Full component documentation is available in the [docs/](docs/) folder:
 | [EChart](docs/EChart.md) | Base chart component + all 20 series sub-components |
 | [EChart3D](docs/EChart3D.md) | 3D charts (Bar, Scatter, Line, Surface, Globe) |
 | [EChartGraphic](docs/EChartGraphic.md) | Custom drawing with the graphic API |
+| [Diagram](docs/Diagram.md) | Diagram engine + DataDiagram, Flowchart, Mindmap, OrgChart presets |
 | [useECharts](docs/useECharts.md) | Core hook for custom integrations |
 | [Registration](docs/registration.md) | Tree shaking and selective chart registration |
 | [Themes](docs/themes.md) | Built-in themes and custom theme creation |
