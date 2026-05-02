@@ -1,7 +1,13 @@
-import { ZoomIn, ZoomOut, Maximize, RotateCcw } from "lucide-react";
 import { cn } from "../../../utils/cn";
 import { useCanvas } from "./Canvas.context";
 import type { CanvasControlsProps } from "./Canvas.types";
+
+// Inline SVGs (avoid third-party icon dep — fancy-echarts is self-contained).
+const iconProps = { width: 16, height: 16, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: 2, strokeLinecap: "round" as const, strokeLinejoin: "round" as const };
+const ZoomIn = () => (<svg {...iconProps}><circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" /><line x1="11" y1="8" x2="11" y2="14" /><line x1="8" y1="11" x2="14" y2="11" /></svg>);
+const ZoomOut = () => (<svg {...iconProps}><circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" /><line x1="8" y1="11" x2="14" y2="11" /></svg>);
+const Maximize = () => (<svg {...iconProps}><path d="M3 7V5a2 2 0 0 1 2-2h2" /><path d="M17 3h2a2 2 0 0 1 2 2v2" /><path d="M21 17v2a2 2 0 0 1-2 2h-2" /><path d="M7 21H5a2 2 0 0 1-2-2v-2" /></svg>);
+const RotateCcw = () => (<svg {...iconProps}><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" /><path d="M3 3v5h5" /></svg>);
 
 export function CanvasControls({
   className,
@@ -53,22 +59,22 @@ export function CanvasControls({
     >
       {showZoomIn && (
         <button type="button" onClick={zoomIn} className={btnClass} aria-label="Zoom in">
-          <ZoomIn size={16} />
+          <ZoomIn />
         </button>
       )}
       {showZoomOut && (
         <button type="button" onClick={zoomOut} className={btnClass} aria-label="Zoom out">
-          <ZoomOut size={16} />
+          <ZoomOut />
         </button>
       )}
       {showReset && (
         <button type="button" onClick={reset} className={btnClass} aria-label="Reset view">
-          <RotateCcw size={16} />
+          <RotateCcw />
         </button>
       )}
       {showFitAll && (
         <button type="button" onClick={fitAll} className={btnClass} aria-label="Fit all">
-          <Maximize size={16} />
+          <Maximize />
         </button>
       )}
     </div>
