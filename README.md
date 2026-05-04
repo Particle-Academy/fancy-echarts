@@ -261,6 +261,24 @@ import { DataDiagram, Flowchart, Mindmap, OrgChart } from "@particle-academy/fan
 
 See [docs/Diagram.md](docs/Diagram.md) for schemas, props, and layout details.
 
+## Inertia.js integration
+
+If your app uses Inertia, install [`@particle-academy/fancy-inertia`](https://github.com/Particle-Academy/fancy-inertia). Three things to know:
+
+1. **`<FancyAppRoot withECharts>`** auto-calls `registerAll()` and `registerBuiltinThemes()` on the client only — drop it once at app entry and every page below it has charts ready.
+2. **SSR**: every fancy-echarts component (`<EChart>`, `<EChart3D>`, `<EChartGraphic>`, and the diagram presets) needs `window` to initialize. Wrap in `<FancyClientOnly>` if Inertia SSR is enabled.
+3. **Schema mode**: pass `withECharts: true` to `registerFancyComponents()` and your fancy-screens schemas can reference `EChart`, `DataDiagram`, `Flowchart`, `Mindmap`, `OrgChart` by name from server-supplied JSON.
+
+```tsx
+import { FancyAppRoot, FancyClientOnly } from "@particle-academy/fancy-inertia";
+
+<FancyAppRoot withECharts>
+  <FancyClientOnly fallback={<div className="h-80 animate-pulse rounded bg-zinc-100" />}>
+    <EChart option={option} />
+  </FancyClientOnly>
+</FancyAppRoot>
+```
+
 ## Documentation
 
 Full component documentation is available in the [docs/](docs/) folder:
