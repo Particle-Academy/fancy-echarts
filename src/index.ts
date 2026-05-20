@@ -71,38 +71,9 @@ export {
   registerBuiltinThemes,
 } from "./utils/themes";
 
-// Diagrams
-export {
-  Diagram,
-  DataDiagram,
-  Flowchart,
-  Mindmap,
-  OrgChart,
-  useDiagram,
-} from "./components/Diagram";
-export type {
-  DiagramProps,
-  DiagramEntityProps,
-  DiagramFieldProps,
-  DiagramRelationProps,
-  DiagramToolbarProps,
-  DiagramContextValue,
-  DiagramType,
-  DiagramSchema,
-  DiagramEntityData,
-  DiagramFieldData,
-  DiagramRelationData,
-  RelationType,
-  MarkerType,
-  LineStyle,
-  RoutingMode,
-  ExportFormat,
-  ViewportState,
-  FlowchartNode,
-  FlowchartEdge,
-  FlowchartProps,
-  MindmapNode,
-  MindmapProps,
-  OrgChartNode,
-  OrgChartProps,
-} from "./components/Diagram";
+// NOTE — the hand-rolled diagram subsystem (Diagram, DataDiagram, Flowchart,
+// Mindmap, OrgChart) was removed in 4.0.0. ECharts and fancy-flow each own
+// their domain now:
+//   - charts (bar/line/pie/sankey/etc) → real ECharts via <EChart> here
+//   - node-edge graphs (flows, org trees, ERDs) → fancy-flow's <FlowEditor>
+// Migration guide: README.md → "Migrating from 3.x".
