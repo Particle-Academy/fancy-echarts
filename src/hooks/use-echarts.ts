@@ -35,6 +35,26 @@ function useDarkMode(): boolean {
   );
 }
 
+/** Collect the chart/component type names an option references, so a render
+ *  failure can name the likely-unregistered culprits. */
+function collectOptionTypes(option: EChartsOption): string[] {
+  const types = new Set<string>();
+  const o = option as Record<string, unknown>;
+  const series = o.series;
+  const arr = Array.isArray(series) ? series : series ? [series] : [];
+  for (const s of arr) {
+    const t = (s as { type?: unknown })?.type;
+    if (typeof t === "string") types.add(`series:${t}`);
+  }
+  for (const key of [
+    "radar", "polar", "geo", "parallel", "calendar", "singleAxis",
+    "timeline", "visualMap", "dataZoom", "toolbox", "brush", "graphic", "dataset",
+  ]) {
+    if (o[key] != null) types.add(key);
+  }
+  return [...types];
+}
+
 export function useECharts(options: UseEChartsOptions): UseEChartsReturn {
   const {
     option,
@@ -87,7 +107,23 @@ export function useECharts(options: UseEChartsOptions): UseEChartsReturn {
     const finalOption = autoDark
       ? { backgroundColor: "transparent", ...option }
       : option;
-    chart.setOption(finalOption, { notMerge, lazyUpdate });
+    try {
+      chart.setOption(finalOption, { notMerge, lazyUpdate });
+    } catch (err) {
+      // echarts throws a cryptic minified error (e.g. "_u[o] is not a
+      // constructor") when an option uses a chart/component type that was
+      // never registered. Re-throw something actionable that names the likely
+      // culprits and points at registration — which is module-scoped per
+      // bundle, so every entry that renders charts must call registerAll().
+      const types = collectOptionTypes(finalOption);
+      throw new Error(
+        `[fancy-echarts] Failed to render chart — a chart/component type is likely not registered. ` +
+          `This option uses: ${types.length ? types.join(", ") : "(none detected)"}. ` +
+          `Call registerAll() once at app startup, or registerCharts(...)/registerComponents(...) for the types you use. ` +
+          `Registration is module-scoped per bundle entry — every entry that renders charts must register. ` +
+          `Original error: ${err instanceof Error ? err.message : String(err)}`,
+      );
+    }
   }, [option, notMerge, lazyUpdate, autoDark]);
 
   // Loading state

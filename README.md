@@ -31,6 +31,14 @@ npm install echarts-gl
 
 ## Quick Start
 
+> **Registration is module-scoped per bundle entry.** Call `registerAll()` (or
+> `registerCharts(...)`) once in **every** independent bundle entry that renders
+> charts — a second entry (e.g. a separate Vite/Inertia entry) that doesn't run
+> the first entry's code won't have registered anything. If a chart/component
+> type isn't registered, `<EChart>` now throws a clear
+> `[fancy-echarts] … is likely not registered. Call registerAll()…` error
+> (instead of echarts' cryptic `_u[o] is not a constructor`).
+
 ```tsx
 import { EChart, registerAll } from "@particle-academy/fancy-echarts";
 
