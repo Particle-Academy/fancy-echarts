@@ -1,5 +1,7 @@
 # @particle-academy/fancy-echarts
 
+[![Fancified](art/fancified.svg)](https://particle.academy)
+
 Typed React wrapper around [Apache ECharts](https://echarts.apache.org/) — every chart type from a single `<EChart>` component, lazy module registration, four built-in themes.
 
 > **Breaking change in 4.0** — the hand-rolled diagram subsystem (`<Diagram>`, `<DataDiagram>`, `<OrgChart>`, `<Mindmap>`, `<Flowchart>` and their types) is removed. ECharts and react-flow each own their domain: charts here, node-edge graphs in [`@particle-academy/fancy-flow`](https://github.com/Particle-Academy/fancy-flow). If you used the diagram presets, migrate to fancy-flow — its `<FlowEditor>` + `defineNode` + `<NodePort>` covers org charts, flowcharts, ERDs, and mindmaps cleanly. Real Sankey / sunburst / radial visualizations stay here as proper ECharts series.
