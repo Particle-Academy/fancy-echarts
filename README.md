@@ -89,12 +89,12 @@ This is consumer responsibility — the wrapper does not introspect `option` to 
 
 `fancy-echarts` is a thin wrapper — every interaction surface is reachable through `onEvents`, `useECharts().instance`, and `tooltip.formatter`. These recipes cover the patterns that hold up across charts.
 
-### Wrap any chart with a Popover, ContextMenu, and Action button
+### Wrap any chart with a Popover, ContextMenu, and Button
 
 The pattern that scales: a single `ChartFrame` wrapper that gives every chart an info popover next to the title, action buttons in the header, and a right-click context menu on the body. Build it once, reuse for every chart type:
 
 ```tsx
-import { Card, Popover, Action, Badge, ContextMenu, Icon, useToast } from "@particle-academy/react-fancy";
+import { Card, Popover, Button, Badge, ContextMenu, Icon, useToast } from "@particle-academy/react-fancy";
 
 function ChartFrame({ title, info, actions = [], onExport, extraMenu, children }) {
   const { toast } = useToast();
@@ -114,7 +114,7 @@ function ChartFrame({ title, info, actions = [], onExport, extraMenu, children }
             </Popover>
           </div>
           <div className="flex gap-2">
-            {actions.map((a) => <Action key={a.label} size="sm" onClick={a.onClick}>{a.label}</Action>)}
+            {actions.map((a) => <Button key={a.label} size="sm" onClick={a.onClick}>{a.label}</Button>)}
           </div>
         </div>
       </Card.Header>
@@ -243,9 +243,9 @@ Pass `theme="dark-preset"` (after `registerBuiltinThemes()`) or `theme="light"` 
 ```tsx
 const [theme, setTheme] = useState<"light" | "dark-preset">("light");
 
-<Action onClick={() => setTheme((t) => t === "light" ? "dark-preset" : "light")}>
+<Button onClick={() => setTheme((t) => t === "light" ? "dark-preset" : "light")}>
   Toggle theme
-</Action>
+</Button>
 <EChart theme={theme} option={option} />
 ```
 
