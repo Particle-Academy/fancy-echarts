@@ -1,6 +1,6 @@
 {
   "name": "@particle-academy/fancy-echarts",
-  "version": "4.0.1",
+  "version": "5.0.0",
   "description": "Typed React wrapper around Apache ECharts — every chart type from a single <EChart> component, lazy module registration, four built-in themes. Diagram subsystem removed in 4.0; node-edge graphs live in @particle-academy/fancy-flow now.",
   "repository": {
     "type": "git",
@@ -44,8 +44,8 @@
     "components"
   ],
   "peerDependencies": {
-    "echarts": "^5.5.0",
-    "echarts-gl": "^2.0.0",
+    "echarts": "^6.1.0",
+    "echarts-gl": "^2.1.0",
     "react": "^18.0.0 || ^19.0.0",
     "react-dom": "^18.0.0 || ^19.0.0"
   },
@@ -57,8 +57,8 @@
   "devDependencies": {
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
-    "echarts": "^5.6.0",
-    "echarts-gl": "^2.0.9",
+    "echarts": "^6.1.0",
+    "echarts-gl": "^2.1.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "tsup": "^8.5.0",
