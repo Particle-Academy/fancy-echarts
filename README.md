@@ -27,7 +27,9 @@ yarn add @particle-academy/fancy-echarts
 npm install echarts-gl
 ```
 
-**Peer dependencies:** `react >= 18`, `react-dom >= 18`, `echarts >= 5.5`, `echarts-gl >= 2.0` (optional, only needed for 3D)
+**Peer dependencies:** `react >= 18`, `react-dom >= 18`, `echarts ^6.1.0`, `echarts-gl ^2.1.0` (optional, only needed for 3D)
+
+> **Breaking change in 5.0** — the `echarts` peer moved to `^6.1.0` (and `echarts-gl` to `^2.1.0`). **What you must do:** run `npm install echarts@^6` (plus `echarts-gl@^2.1` if you render 3D). This is not optional housekeeping — echarts below 6.1.0 carries an XSS advisory (GHSA-fgmj-fm8m-jvvx). The `<EChart>` API itself is unchanged, so if your `option` objects work on echarts 5 they work on 6.
 
 > **Breaking change in 2.0** — `echarts` and `echarts-gl` moved from regular dependencies to peer dependencies. If you're on npm 7+ or yarn 3+ the upgrade is transparent. On older tooling or pnpm without auto-install, run `npm install echarts` (and `echarts-gl` if you use 3D charts) once.
 
