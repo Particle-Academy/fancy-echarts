@@ -1,5 +1,5 @@
 import React from "react";
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router";
 import { registerAll } from "@particle-academy/react-echarts";
 
 // Register all ECharts components for the demo
