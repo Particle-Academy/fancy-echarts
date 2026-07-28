@@ -1,7 +1,7 @@
 {
   "name": "@particle-academy/fancy-echarts",
   "version": "5.0.0",
-  "description": "Typed React wrapper around Apache ECharts — every chart type from a single <EChart> component, lazy module registration, four built-in themes. Diagram subsystem removed in 4.0; node-edge graphs live in @particle-academy/fancy-flow now.",
+  "description": "Typed React wrapper around Apache ECharts \u2014 every chart type from a single <EChart> component, lazy module registration, four built-in themes. Diagram subsystem removed in 4.0; node-edge graphs live in @particle-academy/fancy-flow now.",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Particle-Academy/fancy-echarts.git"
@@ -32,7 +32,7 @@
   "scripts": {
     "build": "tsup",
     "dev": "tsup --watch",
-    "lint": "tsc --noEmit",
+    "lint": "tsc --noEmit && eslint .",
     "clean": "rm -rf dist",
     "prepublishOnly": "tsup"
   },
@@ -59,10 +59,13 @@
     "@types/react-dom": "^19.0.0",
     "echarts": "^6.1.0",
     "echarts-gl": "^2.1.0",
+    "eslint": "^10.8.0",
+    "eslint-plugin-react-hooks": "^7.1.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "tsup": "^8.5.0",
-    "typescript": "^5.8.0"
+    "typescript": "^5.8.0",
+    "typescript-eslint": "^8.65.0"
   },
   "publishConfig": {
     "access": "public"

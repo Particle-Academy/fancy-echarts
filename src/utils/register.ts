@@ -1,4 +1,8 @@
-import { use } from "echarts/core";
+// Aliased: a bare `use(...)` is indistinguishable from React's `use` hook to
+// both a reader and `react-hooks/rules-of-hooks`, which flagged all three
+// registrars here as hooks called outside a component. It is echarts's
+// registration function and nothing to do with React.
+import { use as echartsUse } from "echarts/core";
 import {
   LineChart,
   BarChart,
@@ -98,7 +102,7 @@ let registered = false;
 /** Register all ECharts chart types, components, and renderers. Convenient for demos/quick starts. */
 export function registerAll(): void {
   if (registered) return;
-  use([...allCharts, ...allComponents, ...allRenderers] as any);
+  echartsUse([...allCharts, ...allComponents, ...allRenderers] as any);
   registered = true;
 }
 
@@ -106,14 +110,14 @@ export function registerAll(): void {
 export function registerCharts(
   ...chartTypes: Array<(typeof allCharts)[number]>
 ): void {
-  use(chartTypes as any);
+  echartsUse(chartTypes as any);
 }
 
 /** Register specific components by reference. */
 export function registerComponents(
   ...components: Array<(typeof allComponents)[number]>
 ): void {
-  use(components as any);
+  echartsUse(components as any);
 }
 
 // Re-export individual charts and components for manual registration

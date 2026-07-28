@@ -11,6 +11,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+### Changed
+
+- Import `use` from `echarts/core` as `echartsUse`. A bare `use(...)` is
+  indistinguishable from React's `use` hook to both a reader and
+  `react-hooks/rules-of-hooks`, which reported all three registrars here as hooks
+  called outside a component. **No action needed** — internal only, and
+  `registerAll` / `registerCharts` / `registerComponents` are unchanged.
+
 ### Security
 
 - **The `react-router` override was the vulnerability, not the fix.**
