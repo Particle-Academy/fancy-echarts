@@ -11,6 +11,105 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+## 5.0.0 — 2026-07-01
+
+### Changed
+
+- **BREAKING** — **deps:** require echarts ^6.1.0 — GHSA-fgmj-fm8m-jvvx (XSS)
+
+- use canonical Button name (Action is a deprecated react-fancy alias)
+
+## 4.0.1 — 2026-05-29
+
+### Fixed
+
+- **DX:** actionable error when a chart type isn't registered (#1)
+
+## 4.0.0 — 2026-05-19
+
+### Changed
+
+- 4.0.0 — delete diagram subsystem; charts only
+
+## 3.0.2 — 2026-05-04
+
+- Maintenance only (1 internal commit).
+
+## 3.0.1 — 2026-05-02
+
+### Fixed
+
+- inline lucide-react icons (self-contained, no third-party deps)
+
+## 3.0.0 — 2026-05-02
+
+### Changed
+
+- **BREAKING** — diagrams (DataDiagram, Flowchart, Mindmap, OrgChart) — moved from react-fancy
+
+## 2.0.3 — 2026-05-01
+
+- Maintenance only (2 internal commits).
+
+## 2.0.2 — 2026-04-30
+
+- Maintenance only (1 internal commit).
+
+## 2.0.1 — 2026-04-30
+
+- Maintenance only (1 internal commit).
+
+## 2.0.0 — 2026-04-30
+
+### Changed
+
+- **BREAKING** — release 2.0.0: move echarts and echarts-gl to peer dependencies
+
+## 1.2.1 — 2026-04-29
+
+- Maintenance only (2 internal commits).
+
+## 1.2.0 — 2026-04-28
+
+- Maintenance only (4 internal commits).
+
+## 1.1.3 — 2026-04-26
+
+### Fixed
+
+- register SingleAxisComponent in registerAll
+
+## 1.1.2 — 2026-04-26
+
+### Changed
+
+- package.json: add repository / homepage / bugs URLs (required by provenance)
+
+## 1.1.1 — 2026-04-14
+
+### Changed
+
+- Release v1.1.1 — docs fixes
+
+## 1.1.0 — 2026-04-13
+
+### Changed
+
+- Release v1.1.0
+- Bundle echarts into package, remove peer dependency requirement
+
+## 1.0.3 — 2026-03-31
+
+### Fixed
+
+- Include docs/ in npm package
+
+## 1.0.2 — 2026-03-31
+
+### Changed
+
+- Initial release — @particle-academy/react-echarts v1.0.1
+
 ### Changed
 
 - Import `use` from `echarts/core` as `echartsUse`. A bare `use(...)` is
