@@ -1,7 +1,7 @@
 {
   "name": "@particle-academy/fancy-echarts",
   "version": "5.0.0",
-  "description": "Typed React wrapper around Apache ECharts \u2014 every chart type from a single <EChart> component, lazy module registration, four built-in themes. Diagram subsystem removed in 4.0; node-edge graphs live in @particle-academy/fancy-flow now.",
+  "description": "Typed React wrapper around Apache ECharts — every chart type from a single <EChart> component, lazy module registration, four built-in themes. Diagram subsystem removed in 4.0; node-edge graphs live in @particle-academy/fancy-flow now.",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Particle-Academy/fancy-echarts.git"
@@ -34,7 +34,9 @@
     "dev": "tsup --watch",
     "lint": "tsc --noEmit && eslint .",
     "clean": "rm -rf dist",
-    "prepublishOnly": "tsup"
+    "prepublishOnly": "tsup",
+    "test": "vitest run",
+    "test:watch": "vitest"
   },
   "keywords": [
     "react",
@@ -46,8 +48,8 @@
   "peerDependencies": {
     "echarts": "^6.1.0",
     "echarts-gl": "^2.1.0",
-    "react": "^18.0.0 || ^19.0.0",
-    "react-dom": "^18.0.0 || ^19.0.0"
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
   },
   "peerDependenciesMeta": {
     "echarts-gl": {
@@ -55,17 +57,19 @@
     }
   },
   "devDependencies": {
-    "@types/react": "^19.0.0",
-    "@types/react-dom": "^19.0.0",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
     "echarts": "^6.1.0",
     "echarts-gl": "^2.1.0",
     "eslint": "^10.8.0",
     "eslint-plugin-react-hooks": "^7.1.1",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
+    "jsdom": "^29.1.1",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
     "tsup": "^8.5.0",
     "typescript": "^5.8.0",
-    "typescript-eslint": "^8.65.0"
+    "typescript-eslint": "^8.65.0",
+    "vitest": "^3.2.7"
   },
   "publishConfig": {
     "access": "public"
@@ -76,5 +80,8 @@
     "picomatch": "^4.0.4",
     "postcss": "^8.5.10",
     "vite": "^6.4.2"
+  },
+  "engines": {
+    "node": ">=22"
   }
 }
