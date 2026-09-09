@@ -11,6 +11,58 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+## [6.1.0] - 2026-09-09
+
+### Added
+
+- **`useGraphRoam(instance)` — pan and zoom a `graph` series from ANYWHERE on
+  the canvas**, not only over the nodes.
+
+  ECharts binds the roam controller to the **series group's bounding rect** —
+  the extent of what was drawn — so `roam: true` on a graph is dead on the empty
+  canvas around the cluster, which is exactly where a person grabs to pan. A
+  consumer lost hours to it: *"it only works if I put my mouse in the middle of
+  the cluster."* Nothing in the option surface hints at it.
+
+  ```ts
+  const { instance } = useECharts({ option });
+  useGraphRoam(instance);   // option keeps `series: [{ type: "graph", roam: true }]`
+  ```
+
+  **Keep `roam: true`.** The `graphRoam` action is applied by the series only
+  when roam is enabled — the handler recalculates the view from the model, so
+  with `roam: false` the dispatch is silently inert. Setting it false to "take
+  over cleanly" is the natural move and costs a debugging cycle.
+
+  Node dragging is untouched: `e.target` is zrender's free hit test, so a press
+  that landed on a node is left to ECharts. It also sets a `grab` / `grabbing`
+  cursor, because zrender sets `pointer` over a node and the default arrow
+  everywhere else — once empty canvas IS draggable, nothing signals it.
+
+### Two dead ends, documented so nobody re-walks them
+
+- **Layout bounds do nothing.** `left` / `right` / `top` / `bottom` change the
+  layout area, not the group's bounding rect, which is measured from content.
+  They also re-spread the force layout, so it looks like they helped.
+- **DOM listeners never fire.** zrender owns the canvas events; a `pointerdown`
+  bound on the container element is never called. Worth stating because this
+  package ships a `usePanZoom` that works exactly that way — it is for the DOM
+  `EChartGraphic` surface, and reaching for it here is the dead end.
+
+### And one about testing it
+
+  **Synthetic input does not drive ECharts roam.** CDP drags, `MouseEvent` and
+  `PointerEvent` sequences leave the canvas byte-identical. That was proven with
+  a control rather than assumed: dragging over the cluster, where roam
+  demonstrably works with a real mouse, produced no change either, while
+  toggling a checkbox did change the canvas hash. Hover and cursor DO respond to
+  synthetic events; only roam does not.
+
+  So a browser-automation test of roam reports a **false negative**. The unit
+  tests assert the dispatch and its payload; whether ECharts then paints is
+  verified by a human with a real mouse. Saying where the boundary is beats a
+  test that appears to cover it and does not.
+
 ## 6.0.0 — 2026-08-07
 
 ### Changed

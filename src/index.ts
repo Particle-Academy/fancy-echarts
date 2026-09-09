@@ -8,6 +8,8 @@ export type { GraphicElement, EChartGraphicProps } from "./components/EChartGrap
 export { useECharts } from "./hooks/use-echarts";
 export type { UseEChartsOptions, UseEChartsReturn } from "./hooks/use-echarts";
 export { useResizeObserver } from "./hooks/use-resize-observer";
+export { useGraphRoam } from "./hooks/use-graph-roam";
+export type { UseGraphRoamOptions } from "./hooks/use-graph-roam";
 
 // Types
 export type {
