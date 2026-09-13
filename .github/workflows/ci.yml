@@ -45,5 +45,10 @@ jobs:
       - name: Type-check
         run: npm run lint
 
+      # The package has a vitest suite and CI never ran it, so a failing test
+      # could not stop a push.
+      - name: Test
+        run: npm test
+
       - name: Build
         run: npm run build
