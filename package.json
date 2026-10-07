@@ -80,7 +80,8 @@
     "esbuild": "^0.28.1",
     "picomatch": "^4.0.4",
     "postcss": "^8.5.10",
-    "vite": "^6.4.2"
+    "vite": "^6.4.2",
+    "source-map-js": "^1.2.2"
   },
   "engines": {
     "node": ">=22"
