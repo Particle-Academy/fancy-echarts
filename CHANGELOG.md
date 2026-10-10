@@ -27,6 +27,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   carried with no note of why, and had drifted back inside the vulnerable range
   before anyone looked.
 
+  **The same override now also covers `demo/`, which is where the alert
+  actually was.** The entry above was written when the ROOT manifest was pinned,
+  and `demo/` has its own `package.json` and its own committed lockfile — so the
+  fix landed at one of two gates and Dependabot went on reporting HIGH
+  (GHSA-68fv-2mgg-jv7q, alert #44) against `demo/package-lock.json` for three
+  days while this file claimed the pin was done. Dev-scope and demo-only: the
+  published tarball is `dist`, `docs`, `README.md` and `CHANGELOG.md`, so no
+  release is needed and nothing a consumer installs ever contained it. Every
+  tracked lockfile in the envelope was then swept — 60 checked, this was the
+  last one below 1.2.2.
+
 ## [6.1.0] - 2026-09-09
 
 ### Added
