@@ -25,6 +25,7 @@
   "overrides": {
     "picomatch": "^4.0.4",
     "postcss": "^8.5.10",
-    "@babel/core": "^7.29.6"
+    "@babel/core": "^7.29.6",
+    "source-map-js": "^1.2.2"
   }
 }
