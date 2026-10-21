@@ -46,6 +46,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   and the published package does not ship our lockfile, so the exposure was
   this repo's own dev server.
 
+  **`demo/` too:** its own committed lockfile resolved `vite` 8.1.5, inside the
+  8.0.0–8.1.5 range of the same three advisories, and Dependabot raised no
+  alert for it. It now resolves 8.3.5. Demo-only, not in the tarball.
+
 ## [6.1.0] - 2026-09-09
 
 ### Added
