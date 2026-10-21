@@ -37,6 +37,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   release is needed and nothing a consumer installs ever contained it. Every
   tracked lockfile in the envelope was then swept — 60 checked, this was the
   last one below 1.2.2.
+- **Dev toolchain only — no runtime change, nothing for consumers to do.** The
+  lockfile now resolves `vite` 6.4.5 (was 6.4.3), whose bundled
+  `launch-editor` fixes GHSA-587h-7wmj-h5pm (HIGH, `fs.existsSync()` check
+  bypassable on Windows), GHSA-698v-4r3x-3vcv (`escapeCmdArgs()` omits `%`
+  escaping on Windows) and GHSA-r825-w8mm-5pxw (editor CLI flag
+  misinterpretation). `vite` is only reached through the test/dev toolchain
+  and the published package does not ship our lockfile, so the exposure was
+  this repo's own dev server.
 
 ## [6.1.0] - 2026-09-09
 
