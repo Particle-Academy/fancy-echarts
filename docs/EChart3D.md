@@ -16,6 +16,10 @@ npm install echarts-gl
 
 The GL engine is dynamically loaded on first render of an `EChart3D`, so consumers that never use 3D charts pay nothing.
 
+## Ref
+
+A `ref` holds an [`EChartHandle`](EChart.md#ref), once the GL engine has loaded and the chart has mounted. `capture` throws on a WebGL chart, because the image would be blank; see [Capture](EChart.md#capture) for the route that works.
+
 ## Base Component
 
 `EChart3D` accepts a raw ECharts option (including 3D-specific options like `grid3D`, `xAxis3D`, etc.). It automatically lazy-loads `echarts-gl` and shows a "Loading 3D engine..." placeholder until ready.

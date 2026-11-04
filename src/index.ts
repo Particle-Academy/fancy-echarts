@@ -13,6 +13,7 @@ export type { UseGraphRoamOptions } from "./hooks/use-graph-roam";
 
 // Types
 export type {
+  EChartHandle,
   EChartsOption,
   EChartsInstance,
   EChartBaseProps,
@@ -20,6 +21,10 @@ export type {
   SeriesComponentProps,
   ChartDivProps,
 } from "./types";
+
+// Capture
+export { captureEChart } from "./utils/capture";
+export type { EChartCaptureOptions } from "./utils/capture";
 
 // Utils
 export {

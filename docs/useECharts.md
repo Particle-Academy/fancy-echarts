@@ -35,6 +35,7 @@ function useECharts(options: UseEChartsOptions): UseEChartsReturn
 |----------|------|-------------|
 | `chartRef` | `RefObject<HTMLDivElement \| null>` | Ref to attach to a container div |
 | `instance` | `ECharts \| null` | The ECharts instance (null before init) |
+| `capture` | `(options) => string` | Render the current `option` to a PNG data URL with a pinned theme and background. See [Capture](EChart.md#capture) |
 
 ## Behavior
 
@@ -64,15 +65,14 @@ function MyChart({ data }) {
 
 ```tsx
 function ExportableChart() {
-  const { chartRef, instance } = useECharts({
+  const { chartRef, capture } = useECharts({
     option: { /* ... */ },
   });
 
   const handleExport = () => {
-    if (instance) {
-      const dataUrl = instance.getDataURL({ type: "png" });
-      // download or display dataUrl
-    }
+    // Not instance.getDataURL(): with no theme, that follows the machine's dark mode.
+    const dataUrl = capture({ backgroundColor: "#ffffff" });
+    // download or display dataUrl
   };
 
   return (

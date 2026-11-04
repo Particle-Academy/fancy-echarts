@@ -9,6 +9,8 @@ import { EChartGraphic } from "@particle-academy/fancy-echarts";
 import type { GraphicElement, EChartGraphicProps } from "@particle-academy/fancy-echarts";
 ```
 
+A `ref` holds an [`EChartHandle`](EChart.md#ref), with the instance, the element and [`capture`](EChart.md#capture).
+
 ## Props
 
 | Prop | Type | Default | Description |

@@ -1,8 +1,9 @@
 import React, { forwardRef, useMemo } from "react";
 import type { EChartsOption } from "echarts";
-import { useECharts } from "../hooks/use-echarts";
+import { useECharts, useEChartHandle } from "../hooks/use-echarts";
 import type {
   EChartComponentProps,
+  EChartHandle,
   SeriesComponentProps,
   ChartDivProps,
 } from "../types";
@@ -10,7 +11,7 @@ import type {
 const DEFAULT_STYLE: React.CSSProperties = { width: "100%", height: 400 };
 
 /** Base EChart component — accepts any ECharts option. */
-const EChartBase = forwardRef<HTMLDivElement, EChartComponentProps>(
+const EChartBase = forwardRef<EChartHandle, EChartComponentProps>(
   (
     {
       option,
@@ -26,9 +27,9 @@ const EChartBase = forwardRef<HTMLDivElement, EChartComponentProps>(
       className,
       ...rest
     },
-    _ref
+    ref
   ) => {
-    const { chartRef } = useECharts({
+    const chart = useECharts({
       option,
       theme,
       renderer,
@@ -39,10 +40,11 @@ const EChartBase = forwardRef<HTMLDivElement, EChartComponentProps>(
       onEvents,
       autoResize,
     });
+    useEChartHandle(ref, chart);
 
     return (
       <div
-        ref={chartRef}
+        ref={chart.chartRef}
         style={{ ...DEFAULT_STYLE, ...style }}
         className={className}
         {...rest}
@@ -58,8 +60,10 @@ EChartBase.displayName = "EChart";
 function createSeriesComponent(
   seriesType: string,
   displayName: string
-): React.FC<SeriesComponentProps & ChartDivProps> {
-  const Component: React.FC<SeriesComponentProps & ChartDivProps> = ({
+): React.ForwardRefExoticComponent<
+  SeriesComponentProps & ChartDivProps & React.RefAttributes<EChartHandle>
+> {
+  const Component = forwardRef<EChartHandle, SeriesComponentProps & ChartDivProps>(({
     data,
     title,
     xAxis,
@@ -72,7 +76,7 @@ function createSeriesComponent(
     style,
     className,
     ...rest
-  }) => {
+  }, ref) => {
     const option = useMemo((): EChartsOption => {
       const base: EChartsOption = {};
 
@@ -151,13 +155,14 @@ function createSeriesComponent(
 
     return (
       <EChartBase
+        ref={ref}
         option={option}
         style={style}
         className={className}
         {...rest}
       />
     );
-  };
+  });
 
   Component.displayName = displayName;
   return Component;

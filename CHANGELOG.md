@@ -11,6 +11,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+### Added
+
+- **`captureEChart(option, { backgroundColor, theme?, width?, height?, pixelRatio?, excludeComponents? })` returns a PNG data URL with the theme and background you pinned**, for a PDF or a report. It is also `capture(options)` on a chart's ref and on `useECharts()`. It renders a separate offscreen chart, because `instance.getDataURL()` on a chart with no `theme` follows `prefers-color-scheme` and comes out with light text on a transparent background on a dark-mode machine. Animation is off, so nothing is caught at its first frame. Throws on a WebGL (echarts-gl) option rather than return a blank image. **Consumer action:** none.
+
+### Changed
+
+- **The `ref` on `EChart`, `EChart3D`, `EChartGraphic` and every series shorthand now holds an `EChartHandle`: `{ instance, element, capture }`.** Those three declared `forwardRef<HTMLDivElement>` and ignored the ref, and the shorthands (`EChart.Line`, ...) took none, so a ref was always `null`. **BREAKING for TypeScript only if you already pass a ref:** `useRef<HTMLDivElement>` no longer type-checks. It never held anything, so nothing that worked changes. **Consumer action:** if you did, use `useRef<EChartHandle>` and read `.element` for the div or `.instance` for the chart. Code that called a div method through `ref.current?.` silently did nothing before, and now throws until you do. Everyone else: nothing.
+
 ### Fixed
 
 - **`CHANGELOG.md` is now in the published tarball.** `files` did not whitelist it, so npm never shipped it: a consumer who followed a link to the changelog — from the README, from npm, or from an upgrade guide — found nothing. Nothing for you to do; the file simply arrives from this release on.

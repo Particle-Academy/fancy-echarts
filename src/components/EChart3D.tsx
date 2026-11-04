@@ -1,8 +1,9 @@
 import React, { forwardRef, useEffect, useMemo, useState } from "react";
 import type { EChartsOption } from "echarts";
-import { useECharts } from "../hooks/use-echarts";
+import { useECharts, useEChartHandle } from "../hooks/use-echarts";
 import type {
   EChartComponentProps,
+  EChartHandle,
   SeriesComponentProps,
   ChartDivProps,
 } from "../types";
@@ -53,7 +54,7 @@ function WithGL({ children, style, className }: { children: React.ReactNode; sty
  * EChart3D — 3D chart component that lazy-loads the bundled echarts-gl
  * engine on first mount (split into its own chunk to keep the main bundle small).
  */
-const EChart3DInner = forwardRef<HTMLDivElement, EChartComponentProps>(
+const EChart3DInner = forwardRef<EChartHandle, EChartComponentProps>(
   (
     {
       option,
@@ -69,9 +70,9 @@ const EChart3DInner = forwardRef<HTMLDivElement, EChartComponentProps>(
       className,
       ...rest
     },
-    _ref
+    ref
   ) => {
-    const { chartRef } = useECharts({
+    const chart = useECharts({
       option,
       theme,
       renderer,
@@ -82,10 +83,11 @@ const EChart3DInner = forwardRef<HTMLDivElement, EChartComponentProps>(
       onEvents,
       autoResize,
     });
+    useEChartHandle(ref, chart);
 
     return (
       <div
-        ref={chartRef}
+        ref={chart.chartRef}
         style={{ ...DEFAULT_STYLE, ...style }}
         className={className}
         {...rest}
@@ -96,7 +98,7 @@ const EChart3DInner = forwardRef<HTMLDivElement, EChartComponentProps>(
 
 EChart3DInner.displayName = "EChart3DInner";
 
-const EChart3DBase = forwardRef<HTMLDivElement, EChartComponentProps>(
+const EChart3DBase = forwardRef<EChartHandle, EChartComponentProps>(
   (props, ref) => {
     const { style, className, ...rest } = props;
     return (
@@ -112,8 +114,10 @@ EChart3DBase.displayName = "EChart3D";
 function create3DSeriesComponent(
   seriesType: string,
   displayName: string
-): React.FC<SeriesComponentProps & ChartDivProps> {
-  const Component: React.FC<SeriesComponentProps & ChartDivProps> = ({
+): React.ForwardRefExoticComponent<
+  SeriesComponentProps & ChartDivProps & React.RefAttributes<EChartHandle>
+> {
+  const Component = forwardRef<EChartHandle, SeriesComponentProps & ChartDivProps>(({
     data,
     title,
     tooltip = true,
@@ -122,7 +126,7 @@ function create3DSeriesComponent(
     style,
     className,
     ...rest
-  }) => {
+  }, ref) => {
     const option = useMemo((): EChartsOption => {
       const base: any = {};
 
@@ -150,26 +154,28 @@ function create3DSeriesComponent(
 
     return (
       <EChart3DBase
+        ref={ref}
         option={option}
         style={style}
         className={className}
         {...rest}
       />
     );
-  };
+  });
 
   Component.displayName = displayName;
   return Component;
 }
 
-function createGlobeComponent(): React.FC<
+function createGlobeComponent(): React.ForwardRefExoticComponent<
   Omit<SeriesComponentProps, "data"> &
-    ChartDivProps & { globe?: any; series?: any[] }
+    ChartDivProps & { globe?: any; series?: any[] } & React.RefAttributes<EChartHandle>
 > {
-  const Component: React.FC<
+  const Component = forwardRef<
+    EChartHandle,
     Omit<SeriesComponentProps, "data"> &
       ChartDivProps & { globe?: any; series?: any[] }
-  > = ({
+  >(({
     title,
     globe,
     series = [],
@@ -177,7 +183,7 @@ function createGlobeComponent(): React.FC<
     style,
     className,
     ...rest
-  }) => {
+  }, ref) => {
     const option = useMemo((): EChartsOption => {
       const base: any = {};
 
@@ -200,13 +206,14 @@ function createGlobeComponent(): React.FC<
 
     return (
       <EChart3DBase
+        ref={ref}
         option={option}
         style={style}
         className={className}
         {...rest}
       />
     );
-  };
+  });
 
   Component.displayName = "EChart3D.Globe";
   return Component;

@@ -41,6 +41,56 @@ import { EChart } from "@particle-academy/fancy-echarts";
 
 Also accepts any `HTMLDivElement` attribute.
 
+## Ref
+
+A `ref` on `EChart`, on any series shorthand (`EChart.Line`, ...), on `EChart3D` and on `EChartGraphic` holds an `EChartHandle`:
+
+| Member | Type | Description |
+|--------|------|-------------|
+| `instance` | `ECharts \| null` | The live ECharts instance. Read it when you need it: a theme or renderer change replaces it |
+| `element` | `HTMLDivElement \| null` | The element the chart renders into |
+| `capture(options)` | `string` | A PNG data URL with a pinned theme and background. See [Capture](#capture) |
+
+```tsx
+const ref = useRef<EChartHandle>(null);
+
+<EChart ref={ref} option={option} />;
+
+ref.current?.instance?.dispatchAction({ type: "highlight", seriesIndex: 0 });
+```
+
+## Capture
+
+For a PDF, a report or anything else that must look the same on every machine. Pin the background, and the theme if you want one other than ECharts' default:
+
+```tsx
+const png = ref.current?.capture({ backgroundColor: "#ffffff", width: 800, height: 400 });
+```
+
+`instance.getDataURL()` is not enough for this. With no `theme` prop the chart on screen follows `prefers-color-scheme`, so on a dark-mode machine it comes out with light text on a transparent background. `capture` renders a separate offscreen chart instead, with animation off, and leaves the one on screen alone.
+
+To capture without mounting a chart at all:
+
+```tsx
+import { captureEChart } from "@particle-academy/fancy-echarts";
+
+const png = captureEChart(option, { backgroundColor: "#ffffff", theme: "dark" });
+```
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `backgroundColor` | `string` | **required** | The background, or `"transparent"` to ask for none. Wins over one in the option |
+| `theme` | `string \| object` | ECharts' default | Theme name or object. Never follows the machine |
+| `width` / `height` | `number` | The element's size, or 800 x 400 | CSS pixels |
+| `pixelRatio` | `number` | `2` | Output pixels per CSS pixel |
+| `excludeComponents` | `string[]` | - | Component types to leave out, such as `["toolbox"]` |
+
+It renders from the chart's current `option` prop:
+
+- **Calls you made yourself on the instance are not included**, nor are pieces of an earlier `option` that the default merge left on screen. Pass `notMerge` or a complete option if that matters.
+- **It is synchronous**, so remote images in the option must already be loaded.
+- **WebGL charts throw.** echarts-gl draws its first frame later, so the image would be blank. For those, pin the `theme` prop, wait for the chart to draw, and call `ref.current.instance.getDataURL({ type: "png", backgroundColor })`.
+
 ## Series Sub-Components
 
 All sub-components share a simplified props API. They build the ECharts option internally.

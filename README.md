@@ -372,6 +372,18 @@ import { EChartGraphic } from "@particle-academy/fancy-echarts";
 />
 ```
 
+## Ref and capture
+
+A `ref` on any chart component holds an `EChartHandle`: `{ instance, element, capture(options) }`. `capture` returns a PNG data URL with the theme and background you pin, whatever the machine's dark mode, for a PDF or a report. `captureEChart(option, options)` does the same with no mounted chart. See [docs/EChart.md](docs/EChart.md#ref).
+
+```tsx
+const ref = useRef<EChartHandle>(null);
+
+<EChart ref={ref} option={option} />;
+
+const png = ref.current?.capture({ backgroundColor: "#ffffff" });
+```
+
 ## Hooks
 
 ### `useECharts`

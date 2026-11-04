@@ -1,9 +1,24 @@
-import { useEffect, useRef, useState, useSyncExternalStore, type RefObject } from "react";
+import {
+  useCallback,
+  useEffect,
+  useImperativeHandle,
+  useRef,
+  useState,
+  useSyncExternalStore,
+  type ForwardedRef,
+  type RefObject,
+} from "react";
 import { init, getInstanceByDom, type EChartsType } from "echarts/core";
 import type { EChartsOption } from "echarts";
 
 type ECharts = EChartsType;
 import { useResizeObserver } from "./use-resize-observer";
+import {
+  captureEChart,
+  chartRenderError,
+  type EChartCaptureOptions,
+} from "../utils/capture";
+import type { EChartHandle } from "../types";
 
 export interface UseEChartsOptions {
   option: EChartsOption;
@@ -20,6 +35,8 @@ export interface UseEChartsOptions {
 export interface UseEChartsReturn {
   chartRef: RefObject<HTMLDivElement | null>;
   instance: ECharts | null;
+  /** Render the current `option` to a PNG data URL with a pinned theme and background. */
+  capture: (options: EChartCaptureOptions) => string;
 }
 
 /** Detect system dark mode preference reactively. */
@@ -33,26 +50,6 @@ function useDarkMode(): boolean {
     () => window.matchMedia("(prefers-color-scheme: dark)").matches,
     () => false,
   );
-}
-
-/** Collect the chart/component type names an option references, so a render
- *  failure can name the likely-unregistered culprits. */
-function collectOptionTypes(option: EChartsOption): string[] {
-  const types = new Set<string>();
-  const o = option as Record<string, unknown>;
-  const series = o.series;
-  const arr = Array.isArray(series) ? series : series ? [series] : [];
-  for (const s of arr) {
-    const t = (s as { type?: unknown })?.type;
-    if (typeof t === "string") types.add(`series:${t}`);
-  }
-  for (const key of [
-    "radar", "polar", "geo", "parallel", "calendar", "singleAxis",
-    "timeline", "visualMap", "dataZoom", "toolbox", "brush", "graphic", "dataset",
-  ]) {
-    if (o[key] != null) types.add(key);
-  }
-  return [...types];
 }
 
 export function useECharts(options: UseEChartsOptions): UseEChartsReturn {
@@ -76,6 +73,9 @@ export function useECharts(options: UseEChartsOptions): UseEChartsReturn {
   const chartRef = useRef<HTMLDivElement | null>(null);
   const instanceRef = useRef<ECharts | null>(null);
   const [instance, setInstance] = useState<ECharts | null>(null);
+  // What a capture renders. Not the instance's getOption(): the live theme's
+  // colours are merged into that.
+  const optionRef = useRef(option);
 
   // Init/dispose — re-init when theme changes (including dark mode toggle)
   useEffect(() => {
@@ -100,6 +100,7 @@ export function useECharts(options: UseEChartsOptions): UseEChartsReturn {
 
   // Set option
   useEffect(() => {
+    optionRef.current = option;
     const chart = instanceRef.current;
     if (!chart || !option) return;
     // When using auto-detected dark theme, force transparent background
@@ -110,19 +111,7 @@ export function useECharts(options: UseEChartsOptions): UseEChartsReturn {
     try {
       chart.setOption(finalOption, { notMerge, lazyUpdate });
     } catch (err) {
-      // echarts throws a cryptic minified error (e.g. "_u[o] is not a
-      // constructor") when an option uses a chart/component type that was
-      // never registered. Re-throw something actionable that names the likely
-      // culprits and points at registration — which is module-scoped per
-      // bundle, so every entry that renders charts must call registerAll().
-      const types = collectOptionTypes(finalOption);
-      throw new Error(
-        `[fancy-echarts] Failed to render chart — a chart/component type is likely not registered. ` +
-          `This option uses: ${types.length ? types.join(", ") : "(none detected)"}. ` +
-          `Call registerAll() once at app startup, or registerCharts(...)/registerComponents(...) for the types you use. ` +
-          `Registration is module-scoped per bundle entry — every entry that renders charts must register. ` +
-          `Original error: ${err instanceof Error ? err.message : String(err)}`,
-      );
+      throw chartRenderError(finalOption, err);
     }
   }, [option, notMerge, lazyUpdate, autoDark]);
 
@@ -161,5 +150,41 @@ export function useECharts(options: UseEChartsOptions): UseEChartsReturn {
     }
   });
 
-  return { chartRef, instance };
+  const capture = useCallback((captureOptions: EChartCaptureOptions) => {
+    const el = chartRef.current;
+    return captureEChart(optionRef.current, {
+      ...(el?.clientWidth ? { width: el.clientWidth } : null),
+      ...(el?.clientHeight ? { height: el.clientHeight } : null),
+      ...captureOptions,
+    });
+  }, []);
+
+  return { chartRef, instance, capture };
+}
+
+/**
+ * Give a component's forwarded ref its {@link EChartHandle}.
+ *
+ * Getters rather than a captured value: the ref attaches before the effect that
+ * creates the instance runs, and a theme change replaces the instance while the
+ * ref stays put.
+ */
+export function useEChartHandle(
+  ref: ForwardedRef<EChartHandle>,
+  { chartRef, capture }: Pick<UseEChartsReturn, "chartRef" | "capture">,
+): void {
+  useImperativeHandle(
+    ref,
+    () => ({
+      get instance() {
+        const el = chartRef.current;
+        return (el && getInstanceByDom(el)) ?? null;
+      },
+      get element() {
+        return chartRef.current;
+      },
+      capture,
+    }),
+    [chartRef, capture],
+  );
 }

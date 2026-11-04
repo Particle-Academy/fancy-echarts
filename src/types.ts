@@ -4,7 +4,26 @@ import type {
   ECharts as EChartsInstance,
 } from "echarts";
 
+import type { EChartCaptureOptions } from "./utils/capture";
+
 export type { EChartsOption, SetOptionOpts, EChartsInstance };
+
+/**
+ * What a `ref` on `EChart`, `EChart3D`, `EChartGraphic` or a series shorthand holds.
+ * The same object for the life of the component. `instance` always reads the current
+ * ECharts instance, because a theme or renderer change disposes and replaces it.
+ */
+export interface EChartHandle {
+  /** The live ECharts instance, or `null` before the first effect has run. */
+  readonly instance: EChartsInstance | null;
+  /** The element the chart renders into. */
+  readonly element: HTMLDivElement | null;
+  /**
+   * Render the chart's current `option` prop offscreen to a PNG data URL, with the
+   * theme and background you pin, at this element's size unless told otherwise.
+   */
+  capture(options: EChartCaptureOptions): string;
+}
 
 export interface EChartBaseProps {
   option: EChartsOption;

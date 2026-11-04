@@ -1,7 +1,7 @@
 import React, { forwardRef, useMemo } from "react";
 import type { EChartsOption } from "echarts";
-import { useECharts } from "../hooks/use-echarts";
-import type { EChartBaseProps, ChartDivProps } from "../types";
+import { useECharts, useEChartHandle } from "../hooks/use-echarts";
+import type { EChartBaseProps, EChartHandle, ChartDivProps } from "../types";
 
 export interface GraphicElement {
   type:
@@ -42,7 +42,7 @@ const DEFAULT_STYLE: React.CSSProperties = { width: "100%", height: 400 };
  * EChartGraphic — for custom drawing via ECharts graphic layer.
  * Supports rect, circle, ring, arc, polygon, polyline, path, image, text, group elements.
  */
-export const EChartGraphic = forwardRef<HTMLDivElement, EChartGraphicProps>(
+export const EChartGraphic = forwardRef<EChartHandle, EChartGraphicProps>(
   (
     {
       elements,
@@ -59,7 +59,7 @@ export const EChartGraphic = forwardRef<HTMLDivElement, EChartGraphicProps>(
       className,
       ...rest
     },
-    _ref
+    ref
   ) => {
     const option = useMemo((): EChartsOption => {
       return {
@@ -70,7 +70,7 @@ export const EChartGraphic = forwardRef<HTMLDivElement, EChartGraphicProps>(
       } as EChartsOption;
     }, [elements, extraOption]);
 
-    const { chartRef } = useECharts({
+    const chart = useECharts({
       option,
       theme,
       renderer,
@@ -81,10 +81,11 @@ export const EChartGraphic = forwardRef<HTMLDivElement, EChartGraphicProps>(
       onEvents,
       autoResize,
     });
+    useEChartHandle(ref, chart);
 
     return (
       <div
-        ref={chartRef}
+        ref={chart.chartRef}
         style={{ ...DEFAULT_STYLE, ...style }}
         className={className}
         {...rest}
