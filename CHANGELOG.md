@@ -11,6 +11,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+## [6.2.0] - 2026-11-03
+
 ### Added
 
 - **`captureEChart(option, { backgroundColor, theme?, width?, height?, pixelRatio?, excludeComponents? })` returns a PNG data URL with the theme and background you pinned**, for a PDF or a report. It is also `capture(options)` on a chart's ref and on `useECharts()`. It renders a separate offscreen chart, because `instance.getDataURL()` on a chart with no `theme` follows `prefers-color-scheme` and comes out with light text on a transparent background on a dark-mode machine. Animation is off, so nothing is caught at its first frame. Throws on a WebGL (echarts-gl) option rather than return a blank image. **Consumer action:** none.
