@@ -11,6 +11,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+### Changed
+
+- **Releases need a lab-run certificate.** `publish.yml` gains a read-only
+  `lab-certificate` job that every publishing job needs: a tag is published only
+  when the fancy-labs lab has certified that exact version and commit. Consumers
+  do nothing; this changes how releases are cut, not what the package does.
+
 ## [6.2.0] - 2026-11-03
 
 ### Added
@@ -133,7 +140,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 These are the kit 0.5 platform floors, applied across every package at once so a consumer never has to resolve a mix. **No API changed, nothing was removed, nothing was renamed** — only what the package requires.
 
 This package is past 1.0, so a floor raise takes a **major**. Most of the suite is pre-1.0 and lands the identical change in a minor — that is semver, not a difference in how much changed.
-
 
 ## 5.0.0 — 2026-07-01
 
