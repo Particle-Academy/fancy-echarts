@@ -11,6 +11,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+## [6.3.0] - 2026-11-11
+
+### Added
+
+- **`onRenderError(error)` on `EChart`, `EChart3D`, `EChartGraphic`, every series shorthand and `useECharts()`.** Called with the clear `[fancy-echarts] … is likely not registered` error when a chart cannot render. The chart's element also gets `data-echart-error="not-registered"` until an option renders cleanly, so a test or an agent can find a broken chart without reading the console. **Consumer action:** none; it is optional.
+
+### Fixed
+
+- **A chart with a missing registration no longer takes the whole page down.** A page that never called `registerAll()` has no renderer, and echarts' `init()` threw `Xa[a] is not a constructor` (a production build's spelling of zrender's renderer lookup) from the effect that creates the chart. Nothing caught it, so React unmounted the entire root, banner, nav and all. The error the README promised was only wired around `setOption`, so it never fired for this case. Both now report the clear error instead of throwing: `console.error`, `onRenderError`, and the element mark. **Consumer action:** none. If you relied on a chart error reaching an error boundary, use `onRenderError` instead.
+- **An unregistered chart or component type is named instead of silently dropped.** echarts does not throw for these: in production it draws nothing in their place, and in development it only logs. `<EChart>` now checks the option's series types and component keys against what is registered and reports the missing ones by name (`series:sankey`, `tooltip`). The chart still draws whatever is registered. **Consumer action:** none, unless the new message points at a type you forgot to register.
+
 ### Changed
 
 - **Releases need a lab-run certificate.** `publish.yml` gains a read-only

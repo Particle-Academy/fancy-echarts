@@ -39,9 +39,12 @@ npm install echarts-gl
 > `registerCharts(...)`) once in **every** independent bundle entry that renders
 > charts — a second entry (e.g. a separate Vite/Inertia entry) that doesn't run
 > the first entry's code won't have registered anything. If a chart/component
-> type isn't registered, `<EChart>` now throws a clear
+> type, component or renderer isn't registered, `<EChart>` reports a clear
 > `[fancy-echarts] … is likely not registered. Call registerAll()…` error
-> (instead of echarts' cryptic `_u[o] is not a constructor`).
+> (instead of echarts' cryptic `_u[o] is not a constructor`, or nothing at all):
+> it is logged with `console.error`, passed to `onRenderError` if you give one,
+> and the chart's element gets `data-echart-error="not-registered"`. It is never
+> thrown into React, so a broken chart cannot unmount the page around it.
 
 ```tsx
 import { EChart, registerAll } from "@particle-academy/fancy-echarts";

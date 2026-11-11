@@ -16,6 +16,9 @@ import { useResizeObserver } from "./use-resize-observer";
 import {
   captureEChart,
   chartRenderError,
+  chartInitError,
+  findUnregisteredTypes,
+  unregisteredTypesError,
   type EChartCaptureOptions,
 } from "../utils/capture";
 import type { EChartHandle } from "../types";
@@ -30,7 +33,18 @@ export interface UseEChartsOptions {
   loadingOption?: object;
   onEvents?: Record<string, (params: any) => void>;
   autoResize?: boolean;
+  /**
+   * Called with a clear `[fancy-echarts] …` error when the chart cannot render
+   * because its renderer, a chart type or a component was never registered, or
+   * when ECharts rejects the option. The error is also logged with
+   * `console.error`. It is never thrown into React, so one broken chart cannot
+   * unmount the page around it.
+   */
+  onRenderError?: (error: Error) => void;
 }
+
+/** Marks a chart element that could not render, so a test or an agent can find it. */
+export const CHART_ERROR_ATTRIBUTE = "data-echart-error";
 
 export interface UseEChartsReturn {
   chartRef: RefObject<HTMLDivElement | null>;
@@ -63,7 +77,11 @@ export function useECharts(options: UseEChartsOptions): UseEChartsReturn {
     loadingOption,
     onEvents,
     autoResize = true,
+    onRenderError,
   } = options;
+
+  const onRenderErrorRef = useRef(onRenderError);
+  onRenderErrorRef.current = onRenderError;
 
   const isDark = useDarkMode();
   // Auto-detect theme: use explicit theme if provided, otherwise "dark" or undefined
@@ -77,6 +95,18 @@ export function useECharts(options: UseEChartsOptions): UseEChartsReturn {
   // colours are merged into that.
   const optionRef = useRef(option);
 
+  // Report a render failure instead of throwing it. An error thrown from an
+  // effect with no boundary above it makes React unmount the whole root, so a
+  // chart with a missing registration used to take the page down with it.
+  const report = useCallback((error: Error) => {
+    chartRef.current?.setAttribute(CHART_ERROR_ATTRIBUTE, "not-registered");
+    console.error(error);
+    onRenderErrorRef.current?.(error);
+  }, []);
+  const clearReport = useCallback(() => {
+    chartRef.current?.removeAttribute(CHART_ERROR_ATTRIBUTE);
+  }, []);
+
   // Init/dispose — re-init when theme changes (including dark mode toggle)
   useEffect(() => {
     if (!chartRef.current) return;
@@ -87,7 +117,13 @@ export function useECharts(options: UseEChartsOptions): UseEChartsReturn {
       existing.dispose();
     }
 
-    const chart = init(chartRef.current, resolvedTheme, { renderer });
+    let chart: ECharts;
+    try {
+      chart = init(chartRef.current, resolvedTheme, { renderer });
+    } catch (err) {
+      report(chartInitError(renderer, err));
+      return;
+    }
     instanceRef.current = chart;
     setInstance(chart);
 
@@ -108,12 +144,19 @@ export function useECharts(options: UseEChartsOptions): UseEChartsReturn {
     const finalOption = autoDark
       ? { backgroundColor: "transparent", ...option }
       : option;
+    const missing = findUnregisteredTypes(finalOption);
     try {
       chart.setOption(finalOption, { notMerge, lazyUpdate });
     } catch (err) {
-      throw chartRenderError(finalOption, err);
+      report(chartRenderError(finalOption, err));
+      return;
     }
-  }, [option, notMerge, lazyUpdate, autoDark]);
+    if (missing.length) {
+      report(unregisteredTypesError(missing));
+    } else {
+      clearReport();
+    }
+  }, [option, notMerge, lazyUpdate, autoDark, report, clearReport]);
 
   // Loading state
   useEffect(() => {

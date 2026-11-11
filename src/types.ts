@@ -35,6 +35,13 @@ export interface EChartBaseProps {
   loadingOption?: object;
   onEvents?: Record<string, (params: any) => void>;
   autoResize?: boolean;
+  /**
+   * Called with a clear `[fancy-echarts] …` error when the chart cannot render:
+   * a renderer, chart type or component that was never registered, or an option
+   * ECharts rejects. Also logged with `console.error`, and the chart element gets
+   * `data-echart-error`. Never thrown into React, so the page around it survives.
+   */
+  onRenderError?: (error: Error) => void;
 }
 
 export interface SeriesComponentProps<T = any>

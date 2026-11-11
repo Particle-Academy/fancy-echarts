@@ -1,4 +1,4 @@
-import { init, use as echartsUse } from "echarts/core";
+import { init, use as echartsUse, ComponentModel } from "echarts/core";
 import { CanvasRenderer } from "echarts/renderers";
 import type { EChartsOption } from "echarts";
 
@@ -54,6 +54,74 @@ export function chartRenderError(option: EChartsOption, err: unknown): Error {
       `This option uses: ${types.length ? types.join(", ") : "(none detected)"}. ` +
       `Call registerAll() once at app startup, or registerCharts(...)/registerComponents(...) for the types you use. ` +
       `Registration is module-scoped per bundle entry — every entry that renders charts must register. ` +
+      `Original error: ${err instanceof Error ? err.message : String(err)}`,
+  );
+}
+
+/** Top-level option keys that name an ECharts component, mapped to the
+ *  component main type that has to be registered for them. */
+const COMPONENT_KEYS = [
+  "title", "legend", "tooltip", "grid", "xAxis", "yAxis", "polar", "angleAxis",
+  "radiusAxis", "radar", "geo", "parallel", "parallelAxis", "calendar",
+  "singleAxis", "timeline", "visualMap", "dataZoom", "toolbox", "brush",
+  "graphic", "dataset",
+] as const;
+
+/**
+ * The chart and component types an option uses that nobody registered.
+ *
+ * ECharts does not throw for these: in production it drops them and draws
+ * nothing in their place, and in development it only logs. So this is the one
+ * place a missing registration can be named. An echarts build without the
+ * class registry (a test double, say) reports nothing rather than everything.
+ */
+export function findUnregisteredTypes(option: EChartsOption): string[] {
+  const missing: string[] = [];
+  // `getClass` is on ComponentModel at runtime (echarts' class manager mounts
+  // it beside `hasClass`) but only `hasClass` is in its published typings, and
+  // `hasClass` looks at the main type alone, so it cannot tell bar from sankey.
+  try {
+    const registry = ComponentModel as unknown as {
+      getClass(mainType: string, subType?: string): unknown;
+      hasClass(componentType: string): boolean;
+    };
+    const o = option as Record<string, unknown>;
+    const series = Array.isArray(o.series) ? o.series : o.series ? [o.series] : [];
+    for (const s of series) {
+      const t = (s as { type?: unknown })?.type;
+      if (typeof t === "string" && !registry.getClass("series", t)) {
+        missing.push(`series:${t}`);
+      }
+    }
+    for (const key of COMPONENT_KEYS) {
+      if (o[key] != null && !registry.hasClass(key)) missing.push(key);
+    }
+  } catch {
+    return [];
+  }
+  return missing;
+}
+
+/** The error for an option whose types {@link findUnregisteredTypes} found missing. */
+export function unregisteredTypesError(types: string[]): Error {
+  return new Error(
+    `[fancy-echarts] This chart uses ${types.join(", ")}, which is likely not registered, ` +
+      `so ECharts would draw nothing for it. ` +
+      `Call registerAll() once at app startup, or registerCharts(...)/registerComponents(...) for the types you use. ` +
+      `Registration is module-scoped per bundle entry — every entry that renders charts must register.`,
+  );
+}
+
+/**
+ * echarts' init() throws when no renderer was registered: in a production
+ * bundle as an opaque "Xa[a] is not a constructor". A page that never called
+ * registerAll() hits this before any option is looked at.
+ */
+export function chartInitError(renderer: string, err: unknown): Error {
+  return new Error(
+    `[fancy-echarts] Failed to start the chart: the "${renderer}" renderer is likely not registered. ` +
+      `Call registerAll() once at app startup, or register ${renderer === "svg" ? "SVGRenderer" : "CanvasRenderer"} ` +
+      `with your chart types. Registration is module-scoped per bundle entry — every entry that renders charts must register. ` +
       `Original error: ${err instanceof Error ? err.message : String(err)}`,
   );
 }

@@ -23,6 +23,7 @@ const EChartBase = forwardRef<EChartHandle, EChartComponentProps>(
       loadingOption,
       onEvents,
       autoResize = true,
+      onRenderError,
       style,
       className,
       ...rest
@@ -39,6 +40,7 @@ const EChartBase = forwardRef<EChartHandle, EChartComponentProps>(
       loadingOption,
       onEvents,
       autoResize,
+      onRenderError,
     });
     useEChartHandle(ref, chart);
 

@@ -55,6 +55,7 @@ export const EChartGraphic = forwardRef<EChartHandle, EChartGraphicProps>(
       loadingOption,
       onEvents,
       autoResize = true,
+      onRenderError,
       style,
       className,
       ...rest
@@ -80,6 +81,7 @@ export const EChartGraphic = forwardRef<EChartHandle, EChartGraphicProps>(
       loadingOption,
       onEvents,
       autoResize,
+      onRenderError,
     });
     useEChartHandle(ref, chart);
 

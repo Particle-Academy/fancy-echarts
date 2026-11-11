@@ -66,6 +66,7 @@ const EChart3DInner = forwardRef<EChartHandle, EChartComponentProps>(
       loadingOption,
       onEvents,
       autoResize = true,
+      onRenderError,
       style,
       className,
       ...rest
@@ -82,6 +83,7 @@ const EChart3DInner = forwardRef<EChartHandle, EChartComponentProps>(
       loadingOption,
       onEvents,
       autoResize,
+      onRenderError,
     });
     useEChartHandle(ref, chart);
 
