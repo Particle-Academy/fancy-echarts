@@ -16,6 +16,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Rebranded the display name to Fancy Dev Kit (README and package description). Package names, the npm scope, URLs and the `fancy-ui` MCP id are unchanged.
 - **Docs:** `AGENTS.md` added: the guide to using this package (install, its entries on the Fancy MCP catalog server, API essentials, traps), and it ships in the package. `CONTRIBUTING.md` added for the contributor notes, with `CLAUDE.md` as a symlink to it. The README points to the MCP server and to `AGENTS.md`. No code changed; nothing to do.
 
+### Fixed
+
+- **Docs:** removed the leftover documentation for the diagram components that 4.0 removed. The README's "Diagrams" section and its docs-table row are gone, the Inertia section no longer lists diagram presets for SSR or schema mode, and `docs/Diagram.md` is deleted. For node-edge graphs use `@particle-academy/fancy-flow`, as the 4.0 note at the top of the README says. Docs only; nothing to do.
+
 ## [6.3.0] - 2026-11-11
 
 ### Added
